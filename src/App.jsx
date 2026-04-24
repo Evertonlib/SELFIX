@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { StoreProvider } from './context/StoreContext'
 import { CartProvider } from './context/CartContext'
 import Welcome from './pages/Welcome'
@@ -11,7 +11,7 @@ export default function App() {
   return (
     <StoreProvider>
       <CartProvider>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<Welcome />} />
             <Route path="/menu" element={<Menu />} />
@@ -19,7 +19,7 @@ export default function App() {
             <Route path="/confirmation" element={<Confirmation />} />
             <Route path="/admin" element={<Admin />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </CartProvider>
     </StoreProvider>
   )
