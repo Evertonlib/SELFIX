@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 
@@ -6,8 +7,13 @@ const fmt = (v) => `R$ ${v.toFixed(2).replace('.', ',')}`
 export default function CartDrawer({ isOpen, onClose, primaryColor }) {
   const navigate = useNavigate()
   const { items, updateQty, removeItem, total, customerName, setCustomerName } = useCart()
+  const [nameError, setNameError] = useState(false)
 
   const handleCheckout = () => {
+    if (!customerName.trim()) {
+      setNameError(true)
+      return
+    }
     onClose()
     navigate('/payment')
   }
@@ -86,14 +92,16 @@ export default function CartDrawer({ isOpen, onClose, primaryColor }) {
         </div>
 
         <div className="px-6 pt-4 pb-2 border-t border-gray-800">
-          <label className="text-gray-400 text-base block mb-2">Seu nome (opcional)</label>
+          <label className="text-base block mb-2" style={{ color: nameError ? '#f87171' : '#9ca3af' }}>
+            Seu nome{nameError ? ' — obrigatório para continuar' : ''}
+          </label>
           <input
             type="text"
             value={customerName}
-            onChange={e => setCustomerName(e.target.value)}
+            onChange={e => { setCustomerName(e.target.value); setNameError(false) }}
             placeholder="Como quer ser chamado?"
-            className="w-full bg-gray-800 text-white text-lg px-4 rounded-xl outline-none border-2 border-gray-700 placeholder-gray-600"
-            style={{ minHeight: '56px' }}
+            className="w-full bg-gray-800 text-white text-lg px-4 rounded-xl outline-none border-2 placeholder-gray-600"
+            style={{ minHeight: '56px', borderColor: nameError ? '#f87171' : '#374151' }}
           />
         </div>
 

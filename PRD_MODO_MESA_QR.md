@@ -50,7 +50,7 @@ Na inicialização do app, leitura de `window.location.search` para extrair o pa
 Quando `tableNumber` estiver definido no StoreContext, exibir uma etiqueta discreta no topo do cardápio com o texto "Mesa X" (onde X é o número). Quando `tableNumber` for nulo ou vazio, essa etiqueta simplesmente não aparece — nenhuma quebra de layout.
 
 **No `Confirmation.jsx`:**  
-Quando `tableNumber` estiver definido, substituir a linha atual "Aguarde ser chamado no balcão" por "Pedido enviado para a cozinha! ✅ Mesa X — Pedido #XXXX". Quando `tableNumber` for nulo, a mensagem atual permanece inalterada.
+Quando `tableNumber` estiver definido, substituir a linha atual "Aguarde ser chamado no balcão" por "Pedido enviado para a cozinha! ✅ Mesa X — Pedido #XXXX". Quando `tableNumber` for nulo, a mensagem atual permanece inalterada. O texto atual a preservar é: "Aguarde ser chamado no balcão".
 
 ---
 
@@ -75,7 +75,7 @@ Os itens abaixo **não devem ser alterados em hipótese alguma** nesta entrega:
 - `Payment.jsx` — fluxo de pagamento (PIX e cartão)
 - `Admin.jsx` — painel administrativo
 - `AdminProductForm.jsx` — formulário de produtos
-- `StoreContext.jsx` — lógica de persistência de config e produtos no localStorage
+- `StoreContext.jsx` — a lógica de persistência de config e produtos no localStorage não deve ser tocada. A única adição permitida neste arquivo é o campo `tableNumber` em memória e a função `setTableNumber`, conforme descrito na seção 4.
 - `seed.js` — dados demo
 - `vite.config.js`, `tailwind.config.js`, `index.html` — configurações de build e deploy
 - Credenciais de admin padrão (`admin` / `selfix123`)
@@ -167,11 +167,11 @@ Cada critério descreve um cenário completo com entrada, ação e resultado esp
 
 ---
 
-### Cenário 7 — Múltiplas mesas no mesmo dispositivo (troca de sessão)
+### Cenário 7 — Troca de mesa na mesma aba (nova sessão)
 
-**Entrada:** Um dispositivo de teste acessa `?mesa=2`, faz um pedido, retorna à tela inicial, depois acessa `?mesa=5` em uma nova aba ou após recarregar com nova URL  
-**Ação:** App carrega com nova URL  
-**Resultado esperado:** O app exibe "Mesa 5" corretamente na nova sessão. Não há contaminação entre as sessões de mesa (o tableNumber da sessão anterior não persiste).
+**Entrada:** Dispositivo acessa `?mesa=2`, o app exibe "Mesa 2" no cardápio. Em seguida, o mesmo dispositivo recarrega a página com a URL `?mesa=5`  
+**Ação:** App carrega com a nova URL  
+**Resultado esperado:** O app exibe "Mesa 5" corretamente. O valor anterior "Mesa 2" não aparece em nenhuma parte da interface.
 
 ---
 
@@ -188,6 +188,14 @@ Cada critério descreve um cenário completo com entrada, ação e resultado esp
 **Entrada:** App foi aberto com `?mesa=3`. Cliente escolhe pagamento PIX  
 **Ação:** Tela de pagamento é exibida  
 **Resultado esperado:** A tela de pagamento é exibida sem alteração. O QR Code de PIX funciona normalmente. O número da mesa não aparece na tela de pagamento.
+
+---
+
+### Cenário 10 — Parâmetro de mesa posicionado depois do hash (URL malformada)
+
+**Entrada:** URL acessada é `https://.../#/?mesa=4` ou `https://.../#/menu?mesa=4` (parâmetro depois do `#`)  
+**Ação:** App carrega  
+**Resultado esperado:** O app abre na tela de boas-vindas normalmente, como se não houvesse parâmetro de mesa. Nenhuma etiqueta de mesa aparece em nenhuma tela. Nenhum erro é exibido ao usuário.
 
 ---
 

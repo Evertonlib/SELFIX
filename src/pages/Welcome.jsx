@@ -5,10 +5,14 @@ import { useCart } from '../context/CartContext'
 
 export default function Welcome() {
   const navigate = useNavigate()
-  const { config } = useStore()
+  const { config, tableNumber } = useStore()
   const { clearCart } = useCart()
 
   useEffect(() => {
+    if (tableNumber) {
+      navigate('/menu', { replace: true })
+      return
+    }
     clearCart()
   }, [])
 
@@ -64,7 +68,7 @@ export default function Welcome() {
       </div>
 
       <a
-        href="/admin"
+        href="/#/admin"
         className="absolute bottom-5 right-5 text-gray-800 text-xs px-3 py-2 rounded-lg"
         aria-label="Painel admin"
       >

@@ -124,7 +124,7 @@ export default function Payment() {
 
             <div className="bg-gray-900 rounded-2xl p-6 w-full border border-gray-800">
               <p className="text-gray-300 text-xl text-center leading-relaxed">
-                Dirija-se ao caixa com seu pedido. Informe seu número de pedido
+                Dirija-se ao caixa com seu pedido. Informe seu número da mesa
                 ao atendente para realizar o pagamento com cartão.
               </p>
             </div>

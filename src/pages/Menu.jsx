@@ -9,7 +9,7 @@ const fmt = (v) => `R$ ${v.toFixed(2).replace('.', ',')}`
 const ALL = 'Todos'
 
 export default function Menu() {
-  const { config, products } = useStore()
+  const { config, products, tableNumber } = useStore()
   const { addItem, itemCount, total } = useCart()
   const [activeCategory, setActiveCategory] = useState(ALL)
   const [cartOpen, setCartOpen] = useState(false)
@@ -52,7 +52,10 @@ export default function Menu() {
           </div>
         )}
         <h1 className="text-white text-2xl font-bold flex-1">{config.name}</h1>
-        <span className="text-gray-500 text-sm">Cardápio</span>
+        {tableNumber
+          ? <span className="text-sm font-semibold text-gray-300 bg-gray-800 border border-gray-700 rounded-full px-3 py-1">Mesa {tableNumber}</span>
+          : <span className="text-gray-500 text-sm">Cardápio</span>
+        }
       </header>
 
       <CategoryBar

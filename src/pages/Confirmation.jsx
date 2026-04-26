@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext'
 
 export default function Confirmation() {
   const navigate = useNavigate()
-  const { config } = useStore()
+  const { config, tableNumber } = useStore()
   const { orderNumber, customerName, clearCart } = useCart()
   const [countdown, setCountdown] = useState(10)
 
@@ -20,7 +20,7 @@ export default function Confirmation() {
         if (c <= 1) {
           clearInterval(interval)
           clearCart()
-          navigate('/')
+          navigate(tableNumber ? '/menu' : '/')
           return 0
         }
         return c - 1
@@ -67,7 +67,9 @@ export default function Confirmation() {
       </div>
 
       <p className="text-gray-300 text-xl font-medium mb-2">
-        Aguarde ser chamado no balcão
+        {tableNumber
+          ? `Pedido enviado para a cozinha! ✅ Mesa ${tableNumber} — Pedido #${orderNumber}`
+          : 'Aguarde ser chamado no balcão'}
       </p>
 
       <p className="text-gray-600 text-base">
@@ -75,7 +77,7 @@ export default function Confirmation() {
       </p>
 
       <button
-        onClick={() => { clearCart(); navigate('/') }}
+        onClick={() => { clearCart(); navigate(tableNumber ? '/menu' : '/') }}
         className="mt-8 text-gray-600 text-base border border-gray-800 rounded-xl px-6 py-3 active:opacity-70"
       >
         Novo pedido
