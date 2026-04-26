@@ -67,9 +67,7 @@ export default function Confirmation() {
       </div>
 
       <p className="text-gray-300 text-xl font-medium mb-2">
-        {tableNumber
-          ? `Pedido enviado para a cozinha! ✅ Mesa ${tableNumber} — Pedido #${orderNumber}`
-          : 'Aguarde ser chamado no balcão'}
+        Seu pedido foi registrado. Apresente o número da mesa ao atendente para efetuar o pagamento.
       </p>
 
       <p className="text-gray-600 text-base">

@@ -6,6 +6,7 @@ import Menu from './pages/Menu'
 import Payment from './pages/Payment'
 import Confirmation from './pages/Confirmation'
 import Admin from './pages/Admin'
+import Kitchen from './pages/Kitchen'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="/payment" element={<Payment />} />
             <Route path="/confirmation" element={<Confirmation />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/cozinha" element={<Kitchen />} />
           </Routes>
         </HashRouter>
       </CartProvider>
