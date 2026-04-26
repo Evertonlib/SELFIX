@@ -416,7 +416,7 @@ export default function Admin() {
         <h1 className="text-xl font-bold text-gray-900">Painel SELFIX</h1>
         <div className="flex items-center gap-4">
           <a
-            href="/"
+            href="/SELFIX/#/menu"
             className="text-blue-600 text-sm font-medium hover:underline"
           >
             Ver quiosque ↗
