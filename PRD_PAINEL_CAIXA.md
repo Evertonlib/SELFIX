@@ -228,20 +228,35 @@ Cada mesa ativa deve exibir:
 - forma de pagamento escolhida no quiosque como referencia
 - destaque visual quando todos os pedidos daquela mesa ja estiverem concluidos pela cozinha
 
+Pedidos de Balcão são uma exceção à regra de agrupamento. Cada pedido de
+Balcão é exibido como uma comanda individual no Painel do Caixa,
+identificada pelo nome do cliente e pelo horário do pedido. O fechamento
+de cada comanda de Balcão segue o mesmo fluxo das mesas numeradas.
+
 ### 6.6 Fechamento da comanda
 
 No fechamento, o caixa deve escolher a forma efetivamente usada entre:
 
 - Dinheiro
-- Debito
-- Credito
+- Débito
+- Crédito
 - PIX
 
-Depois da confirmacao:
+O fechamento só é permitido quando todos os pedidos daquela comanda já
+tiverem sido concluídos pela cozinha. Se ainda houver pedidos em preparo,
+o botão de fechar deve estar desabilitado e a tela deve exibir uma
+mensagem informando que há pedidos em aberto aguardando a cozinha.
+
+No caso de Balcão, como cada pedido é uma comanda individual, o
+fechamento está disponível assim que aquele pedido específico for
+concluído pela cozinha.
+
+Depois da confirmação:
 
 - a comanda sai da lista ativa
-- os pedidos daquela mesa deixam de existir como abertos
-- uma versao consolidada da comanda vai para o historico arquivado da sessao atual
+- os pedidos daquela comanda deixam de existir como abertos
+- uma versão consolidada da comanda vai para o histórico arquivado
+  da sessão atual
 
 ### 6.7 Historico arquivado apenas em memoria
 
@@ -337,6 +352,26 @@ Mesmo que a logica interna mude de "remover pedido" para "marcar pedido como con
 
 Sem backend, continua valendo a limitacao atual do projeto: o estado compartilhado depende do navegador e do armazenamento local do dispositivo.
 
+### P8 - A abertura da comanda corresponde ao primeiro pedido da mesa
+
+O horário de abertura exibido na comanda e usado para ordenação das mesas
+corresponde ao horário do primeiro pedido registrado para aquela mesa na
+sessão atual, independente de pedidos posteriores da mesma mesa.
+
+### P9 - Pedidos de Balcão não são agrupados entre si
+
+Pedidos com identificador "Balcão" não formam uma comanda única. Cada
+pedido de Balcão é tratado como uma comanda individual, identificada pelo
+nome informado pelo cliente no quiosque. Dois pedidos de Balcão com o
+mesmo nome são tratados como comandas separadas — o diferenciador interno
+é o horário do pedido, não o nome.
+
+### P10 - A regra de agrupamento se aplica apenas a mesas numeradas
+
+Somente pedidos com identificador de mesa (ex: Mesa 5) são agrupados numa
+comanda única por mesa. Pedidos de Balcão nunca são agrupados,
+independente do nome informado.
+
 ---
 
 ## 10. Riscos identificados
@@ -348,7 +383,6 @@ Sem backend, continua valendo a limitacao atual do projeto: o estado compartilha
 | Dados corrompidos em `localStorage` quebrarem a tela do caixa | Media | Alto | tratar leitura invalida como lista vazia e nunca mostrar erro tecnico ao operador |
 | Comandas antigas permanecerem abertas por erro de fechamento | Media | Medio | destacar claramente o fechamento, exigir confirmacao da forma final e remover a mesa ativa somente apos a confirmacao |
 | Historico arquivado se perder em refresh gerar surpresa | Alta | Baixo | explicitar no texto e no PRD que o historico e apenas de sessao e demonstrativo |
-| Agrupamento por mesa mascarar pedidos de balcao | Baixa | Medio | tratar `Balcao` como uma comanda propria e explicitar isso na interface |
 
 ---
 
@@ -386,6 +420,15 @@ Cada criterio descreve um cenario com entrada e resultado esperado.
 
 **Resultado esperado:** antes da conclusao do segundo pedido, a mesa nao aparece como pronta. Depois que todos os pedidos abertos daquela mesa forem concluidos, a mesa recebe destaque visual indicando que a conta pode ser fechada.
 
+### CA-05b - Fechamento bloqueado enquanto há pedidos em preparo
+
+**Entrada:** uma mesa possui dois pedidos abertos. Apenas o primeiro foi
+concluído na cozinha. O operador tenta fechar a comanda.
+
+**Resultado esperado:** o botão de fechamento está desabilitado ou
+indisponível. A tela exibe uma mensagem informando que há pedidos
+ainda em preparo naquela mesa.
+
 ### CA-06 - Caixa confirma forma final diferente da referencia do quiosque
 
 **Entrada:** a mesa 8 foi registrada com referencia "PIX" no quiosque, mas no fechamento o cliente paga em Dinheiro.
@@ -410,11 +453,16 @@ Cada criterio descreve um cenario com entrada e resultado esperado.
 
 **Resultado esperado:** o quiosque continua oferecendo apenas Debito, Credito e PIX. O painel do caixa oferece Dinheiro, Debito, Credito e PIX no fechamento.
 
-### CA-10 - Balcao continua funcionando
+### CA-10 - Pedidos de Balcão aparecem como comandas individuais
 
-**Entrada:** um pedido e feito sem parametro de mesa, sendo registrado como Balcao.
+**Entrada:** três clientes diferentes fazem pedidos no balcão em
+momentos distintos, cada um informando seu nome. Dois deles informam
+o mesmo nome.
 
-**Resultado esperado:** o `/caixa` exibe uma comanda ativa de Balcao com os dados corretos e permite o fechamento normal.
+**Resultado esperado:** o /caixa exibe três comandas separadas na lista
+ativa, uma por pedido, cada uma identificada pelo nome e horário. As
+duas comandas com o mesmo nome aparecem como entradas distintas — não
+são agrupadas. O fechamento de cada uma é independente.
 
 ### CA-11 - Tela ativa vazia
 
