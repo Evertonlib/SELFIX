@@ -40,7 +40,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? LIGHT_THEME : DARK_THEME)}
-      className="selfix-theme-toggle fixed right-16 top-14 z-[100] flex h-11 w-11 items-center justify-center rounded-full border shadow-lg transition-colors active:scale-95"
+      className="selfix-theme-toggle fixed right-5 top-14 z-[100] flex h-11 w-11 items-center justify-center rounded-full border shadow-lg transition-colors active:scale-95"
       aria-label="Alternar tema"
       title="Alternar tema"
     >
