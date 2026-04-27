@@ -7,12 +7,14 @@ import Payment from './pages/Payment'
 import Confirmation from './pages/Confirmation'
 import Admin from './pages/Admin'
 import Kitchen from './pages/Kitchen'
+import ThemeToggle from './components/ThemeToggle'
 
 export default function App() {
   return (
     <StoreProvider>
       <CartProvider>
         <HashRouter>
+          <ThemeToggle />
           <Routes>
             <Route path="/" element={<Welcome />} />
             <Route path="/menu" element={<Menu />} />

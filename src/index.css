@@ -28,3 +28,124 @@ input, textarea {
   -webkit-user-select: text;
   user-select: text;
 }
+
+#root {
+  min-height: 100vh;
+  color-scheme: dark;
+  background-color: #030712;
+}
+
+#root:not(.dark) {
+  color-scheme: light;
+  background-color: #f9fafb;
+}
+
+.selfix-theme-toggle {
+  background-color: rgb(31 41 55 / 0.94);
+  border-color: #4b5563;
+  color: #f9fafb;
+  backdrop-filter: blur(12px);
+}
+
+#root:not(.dark) .selfix-theme-toggle {
+  background-color: rgb(255 255 255 / 0.94);
+  border-color: #d1d5db;
+  color: #111827;
+}
+
+#root:not(.dark) .bg-gray-950 {
+  background-color: #f9fafb;
+}
+
+#root:not(.dark) .bg-gray-900 {
+  background-color: #ffffff;
+}
+
+#root:not(.dark) .bg-gray-800 {
+  background-color: #f3f4f6;
+}
+
+#root:not(.dark) .bg-gray-700 {
+  background-color: #e5e7eb;
+}
+
+#root:not(.dark) .border-gray-800 {
+  border-color: #e5e7eb;
+}
+
+#root:not(.dark) .border-gray-700 {
+  border-color: #d1d5db;
+}
+
+#root:not(.dark) .bg-gray-900 h1.text-white,
+#root:not(.dark) .bg-gray-900 h2.text-white,
+#root:not(.dark) .bg-gray-900 h3.text-white,
+#root:not(.dark) .bg-gray-900 p.text-white,
+#root:not(.dark) .bg-gray-900 span.text-white,
+#root:not(.dark) .bg-gray-950 h1.text-white,
+#root:not(.dark) .bg-gray-950 p.text-white,
+#root:not(.dark) .bg-gray-950 span.text-white {
+  color: #111827;
+}
+
+#root:not(.dark) .text-gray-300,
+#root:not(.dark) .text-gray-400,
+#root:not(.dark) .text-gray-500,
+#root:not(.dark) .text-gray-600,
+#root:not(.dark) .text-gray-700,
+#root:not(.dark) .text-gray-800 {
+  color: #4b5563;
+}
+
+#root:not(.dark) .bg-gray-700.text-white,
+#root:not(.dark) .bg-gray-800.text-white,
+#root:not(.dark) .bg-gray-900.text-white {
+  color: #111827;
+}
+
+#root:not(.dark) .from-gray-950 {
+  --tw-gradient-from: #f9fafb var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(249 250 251 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+#root:not(.dark) .via-gray-950\/80 {
+  --tw-gradient-to: rgb(249 250 251 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(249 250 251 / 0.8) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
+#root.dark .bg-white {
+  background-color: #111827;
+}
+
+#root.dark .bg-gray-50,
+#root.dark .bg-gray-100 {
+  background-color: #030712;
+}
+
+#root.dark .bg-gray-200 {
+  background-color: #374151;
+}
+
+#root.dark .border-gray-100,
+#root.dark .border-gray-200,
+#root.dark .border-gray-300 {
+  border-color: #374151;
+}
+
+#root.dark .text-gray-900,
+#root.dark .text-gray-800,
+#root.dark .text-gray-700 {
+  color: #f9fafb;
+}
+
+#root.dark .text-gray-500,
+#root.dark .text-gray-400 {
+  color: #9ca3af;
+}
+
+#root.dark input,
+#root.dark textarea {
+  background-color: #111827;
+  color: #f9fafb;
+}
