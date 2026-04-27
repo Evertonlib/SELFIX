@@ -29,6 +29,27 @@ export function CartProvider({ children }) {
   const generateOrder = () => {
     const num = String(Math.floor(1000 + Math.random() * 9000))
     setOrderNumber(num)
+    try {
+      const params = new URLSearchParams(window.location.search)
+      const tableNum = params.get('mesa') ?? 'Balcão'
+      const totalAtual = items.reduce((s, i) => s + i.price * i.qty, 0)
+      const snapshot = items.map(i => ({ id: i.id, name: i.name, price: i.price, qty: i.qty }))
+      const order = {
+        id: num,
+        tableNumber: tableNum,
+        customerName,
+        items: snapshot,
+        total: totalAtual,
+        createdAt: new Date().toISOString(),
+      }
+      let existing = []
+      try {
+        const raw = localStorage.getItem('selfix_orders')
+        existing = raw ? JSON.parse(raw) : []
+      } catch (_) {}
+      existing.push(order)
+      localStorage.setItem('selfix_orders', JSON.stringify(existing))
+    } catch (_) {}
     return num
   }
 

@@ -166,51 +166,6 @@ function SettingsTab() {
       </section>
 
       <section className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <h2 className="font-bold text-gray-900 text-lg mb-4">Configuração PIX</h2>
-
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Chave PIX</label>
-            <input
-              type="text"
-              value={form.pixKey}
-              onChange={e => set('pixKey', e.target.value)}
-              placeholder="CPF, CNPJ, e-mail ou chave aleatória"
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              URL do QR Code PIX
-              <span className="text-gray-400 font-normal ml-1">(opcional)</span>
-            </label>
-            <input
-              type="text"
-              value={form.pixQrUrl}
-              onChange={e => set('pixQrUrl', e.target.value)}
-              placeholder="Se vazio, gera QR automaticamente da chave PIX"
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <p className="text-xs text-gray-400 mt-1">
-              Para PIX oficial, gere o QR no seu banco e cole a URL da imagem aqui.
-            </p>
-          </div>
-
-          {form.pixKey && (
-            <div className="border border-gray-200 rounded-xl p-4 bg-gray-50">
-              <p className="text-xs text-gray-500 mb-2 font-medium">Pré-visualização do QR Code:</p>
-              <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(form.pixKey)}&size=120x120`}
-                alt="QR Preview"
-                className="w-28 h-28 rounded"
-              />
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
         <h2 className="font-bold text-gray-900 text-lg mb-4">Credenciais de Acesso</h2>
 
         <div className="space-y-4">
@@ -416,7 +371,7 @@ export default function Admin() {
         <h1 className="text-xl font-bold text-gray-900">Painel SELFIX</h1>
         <div className="flex items-center gap-4">
           <a
-            href="/"
+            href="/SELFIX/#/menu"
             className="text-blue-600 text-sm font-medium hover:underline"
           >
             Ver quiosque ↗

@@ -32,6 +32,12 @@ export function StoreProvider({ children }) {
     }
   })
 
+  const [tableNumber, setTableNumber] = useState(() => {
+    const params = new URLSearchParams(window.location.search)
+    const mesa = params.get('mesa')
+    return mesa || null
+  })
+
   useEffect(() => {
     localStorage.setItem('selfix_config', JSON.stringify(config))
   }, [config])
@@ -69,6 +75,8 @@ export function StoreProvider({ children }) {
       updateProduct,
       deleteProduct,
       resetProducts,
+      tableNumber,
+      setTableNumber,
     }}>
       {children}
     </StoreContext.Provider>
