@@ -11,8 +11,9 @@ export default function Kitchen() {
       try {
         const raw = localStorage.getItem('selfix_orders')
         const parsed = raw ? JSON.parse(raw) : []
+        const pending = parsed.filter(o => o.kitchenStatus !== 'done')
         setOrders(prev =>
-          JSON.stringify(prev) !== JSON.stringify(parsed) ? parsed : prev
+          JSON.stringify(prev) !== JSON.stringify(pending) ? pending : prev
         )
       } catch (_) {
         setOrders(prev => (prev.length === 0 ? prev : []))
@@ -32,9 +33,11 @@ export default function Kitchen() {
     try {
       const raw = localStorage.getItem('selfix_orders')
       const current = raw ? JSON.parse(raw) : []
-      const updated = current.filter(o => o.id !== confirmTarget)
+      const updated = current.map(o =>
+        o.id === confirmTarget ? { ...o, kitchenStatus: 'done' } : o
+      )
       localStorage.setItem('selfix_orders', JSON.stringify(updated))
-      setOrders(updated)
+      setOrders(prev => prev.filter(o => o.id !== confirmTarget))
     } catch (_) {}
     setConfirmTarget(null)
   }

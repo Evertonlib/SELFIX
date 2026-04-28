@@ -7,6 +7,7 @@ import Payment from './pages/Payment'
 import Confirmation from './pages/Confirmation'
 import Admin from './pages/Admin'
 import Kitchen from './pages/Kitchen'
+import Cashier from './pages/Cashier'
 import ThemeToggle from './components/ThemeToggle'
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="/confirmation" element={<Confirmation />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/cozinha" element={<Kitchen />} />
+            <Route path="/caixa" element={<Cashier />} />
           </Routes>
         </HashRouter>
       </CartProvider>

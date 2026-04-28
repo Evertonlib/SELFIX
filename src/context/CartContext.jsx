@@ -26,7 +26,7 @@ export function CartProvider({ children }) {
     setItems(prev => prev.map(i => i.id === id ? { ...i, qty } : i))
   }
 
-  const generateOrder = () => {
+  const generateOrder = (paymentReference) => {
     const num = String(Math.floor(1000 + Math.random() * 9000))
     setOrderNumber(num)
     try {
@@ -41,6 +41,8 @@ export function CartProvider({ children }) {
         items: snapshot,
         total: totalAtual,
         createdAt: new Date().toISOString(),
+        paymentReference: paymentReference || 'Nao informado',
+        kitchenStatus: 'pending',
       }
       let existing = []
       try {

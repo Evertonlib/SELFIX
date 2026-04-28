@@ -254,6 +254,7 @@ Responsabilidades:
 - permitir alternancia entre comandas ativas e historico da sessao;
 - bloquear fechamento quando houver pedido pendente;
 - permitir escolher forma final entre `Dinheiro`, `Debito`, `Credito` e `PIX`;
+- exibir confirmacao com identificacao da comanda e nome do cliente antes de executar o fechamento;
 - remover de `selfix_orders` os pedidos fechados daquela comanda;
 - arquivar snapshot consolidado em estado React local.
 
@@ -306,7 +307,10 @@ Se `isReadyToClose` for falso:
 Se `isReadyToClose` for verdadeiro:
 
 - o caixa pode escolher a forma final;
-- o fechamento deve exigir uma confirmacao simples antes de remover a comanda ativa.
+- ao clicar em fechar, exibir confirmacao no mesmo estilo da cozinha:
+  "Fechar comanda [identificacao da mesa ou Balcao] - [nome do cliente]?"
+  com opcoes de confirmar e cancelar;
+- somente apos confirmacao executar o fechamento.
 
 ### 6.5 Fechamento
 

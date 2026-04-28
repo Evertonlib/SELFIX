@@ -40,7 +40,7 @@ export default function Payment() {
           <div className="flex flex-col gap-4 mt-2">
             <div className="grid grid-cols-2 gap-4">
               <button
-                onClick={() => { generateOrder(); navigate('/confirmation') }}
+                onClick={() => { generateOrder('Debito'); navigate('/confirmation') }}
                 className="bg-gray-900 rounded-3xl flex flex-col items-center justify-center gap-4 active:opacity-70 active:scale-95 transition-all border-2 border-gray-800"
                 style={{ minHeight: '180px' }}
               >
@@ -49,7 +49,7 @@ export default function Payment() {
               </button>
 
               <button
-                onClick={() => { generateOrder(); navigate('/confirmation') }}
+                onClick={() => { generateOrder('Credito'); navigate('/confirmation') }}
                 className="bg-gray-900 rounded-3xl flex flex-col items-center justify-center gap-4 active:opacity-70 active:scale-95 transition-all border-2 border-gray-800"
                 style={{ minHeight: '180px' }}
               >
@@ -59,7 +59,7 @@ export default function Payment() {
             </div>
 
             <button
-              onClick={() => { generateOrder(); navigate('/confirmation') }}
+              onClick={() => { generateOrder('PIX'); navigate('/confirmation') }}
               className="w-full bg-gray-900 rounded-3xl flex flex-col items-center justify-center gap-4 active:opacity-70 active:scale-95 transition-all border-2 border-gray-800"
               style={{ minHeight: '180px' }}
             >
