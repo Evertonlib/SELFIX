@@ -1,165 +1,269 @@
-# SELFIX — Sistema de Autoatendimento para Tablet
+# SELFIX
 
-App de autoatendimento (quiosque) + painel admin, feito com React + Vite + TailwindCSS.
-Roda 100% no navegador, sem servidor nem banco de dados — todos os dados ficam no `localStorage`.
+Sistema de autoatendimento para restaurantes, lanchonetes e operações de mesa. O projeto é uma SPA feita com React, Vite e TailwindCSS, pensada para rodar como cardápio digital, quiosque ou protótipo operacional sem backend.
 
----
+O SELFIX permite que o cliente monte o pedido, informe o nome, escolha uma intenção de pagamento e gere uma comanda local. A cozinha acompanha os pedidos em aberto e o caixa fecha comandas por mesa ou balcão.
 
-## Início Rápido
+## Visão Geral
+
+- **Quiosque/Cardápio:** navegação por categorias, carrinho, nome do cliente e envio do pedido.
+- **Modo mesa via QR Code:** URLs com `?mesa=` abrem direto no cardápio e vinculam o pedido à mesa.
+- **Pagamento simplificado:** PIX, Débito e Crédito são registrados como referência, sem cobrança real no app.
+- **Painel Admin:** configuração visual do estabelecimento, credenciais e cadastro de produtos.
+- **Painel da Cozinha:** lista pedidos pendentes e marca pedidos como concluídos.
+- **Painel do Caixa:** agrupa pedidos por mesa, controla comandas ativas, bloqueia fechamento enquanto houver preparo e mantém histórico encerrado apenas durante a sessão.
+- **Tema claro/escuro:** alternância global persistida em `localStorage`.
+
+## Tecnologias
+
+- React 18
+- React Router DOM 6 com `HashRouter`
+- Vite 5
+- TailwindCSS 3
+- Persistência local via `localStorage` e `sessionStorage`
+- Deploy estático com `gh-pages`
+
+## Como Rodar
+
+Instale as dependências:
 
 ```bash
 npm install
+```
+
+Inicie o ambiente local:
+
+```bash
 npm run dev
 ```
 
-Abra http://localhost:5173 no navegador.
+Abra no navegador:
 
-- **Quiosque (cliente):** http://localhost:5173/
-- **Painel Admin:** http://localhost:5173/admin
-  - Usuário padrão: `admin`
-  - Senha padrão: `selfix123`
+```text
+http://localhost:5173/
+```
 
----
+Scripts disponíveis:
 
-## Configurar para um Novo Cliente
+```bash
+npm run dev       # servidor local de desenvolvimento
+npm run build     # gera build estático em dist/
+npm run preview   # prévia local do build
+npm run deploy    # publica dist/ via gh-pages
+```
 
-### 1. Nome e logo
+## Rotas
 
-Acesse o Painel Admin → aba **Configurações**:
+Em desenvolvimento:
 
-- **Nome do Estabelecimento** — aparece na tela de boas-vindas e no cabeçalho do cardápio.
-- **Logo** — faça upload de um arquivo de imagem ou cole uma URL. Recomendamos PNG com fundo transparente, mínimo 200×200 px.
-- **Cor Primária** — use o seletor de cor ou digite o hex (ex: `#e11d48`). Afeta botões, destaques e o efeito de brilho na tela inicial.
+| Área | URL |
+|---|---|
+| Tela inicial / modo totem | `http://localhost:5173/` |
+| Cardápio | `http://localhost:5173/#/menu` |
+| Pagamento | `http://localhost:5173/#/payment` |
+| Confirmação | `http://localhost:5173/#/confirmation` |
+| Admin | `http://localhost:5173/#/admin` |
+| Cozinha | `http://localhost:5173/#/cozinha` |
+| Caixa | `http://localhost:5173/#/caixa` |
 
-### 2. Chave PIX
+No GitHub Pages, o projeto está configurado com base `/SELFIX/`, então as rotas ficam no formato:
 
-Em **Configurações → PIX**:
+```text
+https://SEU_USUARIO.github.io/SELFIX/#/admin
+```
 
-- **Chave PIX** — qualquer chave cadastrada no banco (CPF, CNPJ, e-mail ou chave aleatória).
-- **URL do QR Code PIX (opcional)** — se deixado vazio, o sistema gera um QR automaticamente a partir da chave. Para cobranças PIX com valor pré-definido e QR oficial, gere o QR no app do seu banco, salve a imagem em algum servidor e cole a URL aqui.
+## Modo Mesa por QR Code
 
-### 3. Cardápio
+Para vincular pedidos a uma mesa, gere o QR Code com o parâmetro `mesa` antes do hash:
 
-Em **Configurações → Cardápio**:
+```text
+http://localhost:5173/?mesa=4#/
+https://SEU_USUARIO.github.io/SELFIX/?mesa=4#/
+```
 
-- Clique em **+ Novo** para adicionar produtos.
-- Cada produto tem: nome, descrição, preço, categoria, foto e status ativo/inativo.
-- Produtos **inativos** não aparecem no quiosque.
-- A categoria é texto livre; use nomes consistentes para agrupar (ex: `Hambúrgueres`, `Bebidas`).
-- Para fotos, você pode fazer upload (convertido para base64) ou colar uma URL.
+Quando `?mesa=4` está presente:
 
-> ⚠️ O `localStorage` tem limite de ~5 MB. Se usar muitas fotos por upload, prefira URLs de imagens hospedadas.
+- a tela inicial é pulada;
+- o cardápio abre diretamente;
+- o topo do cardápio exibe `Mesa 4`;
+- o pedido salvo recebe `tableNumber: "4"`;
+- após a confirmação, o cliente volta ao cardápio para novo pedido.
 
-### 4. Credenciais
+Se o parâmetro vier depois do hash, por exemplo `/#/menu?mesa=4`, o app não reconhece a mesa porque a leitura é feita por `window.location.search`.
 
-Em **Configurações → Credenciais de Acesso**, troque usuário e senha antes de entregar o tablet ao cliente.
+## Fluxo do Cliente
 
-### 5. Build para produção
+1. O cliente acessa o cardápio pelo totem ou pelo QR Code da mesa.
+2. Escolhe produtos ativos do cardápio.
+3. Abre o carrinho, ajusta quantidades e informa o nome.
+4. Escolhe a referência de pagamento: Débito, Crédito ou PIX.
+5. O app gera um número de pedido de quatro dígitos.
+6. O pedido é salvo em `localStorage` na chave `selfix_orders`.
+7. A tela de confirmação exibe o número do pedido e retorna automaticamente após 10 segundos.
+
+Importante: o app não processa pagamento real. A escolha feita no quiosque serve como referência para atendimento e fechamento no caixa.
+
+## Painel Admin
+
+Rota:
+
+```text
+/#/admin
+```
+
+Credenciais padrão:
+
+```text
+Usuário: admin
+Senha: selfix123
+```
+
+No painel é possível:
+
+- alterar nome do estabelecimento;
+- definir logo por upload ou URL;
+- alterar cor primária;
+- alterar usuário e senha do admin;
+- criar, editar, buscar, ativar/inativar e excluir produtos;
+- restaurar o cardápio demo.
+
+As credenciais são armazenadas no `localStorage`. Troque os dados padrão antes de entregar um tablet ou link de demonstração.
+
+## Painel da Cozinha
+
+Rota:
+
+```text
+/#/cozinha
+```
+
+A cozinha lê `selfix_orders` a cada 5 segundos e exibe pedidos cujo `kitchenStatus` ainda não é `done`.
+
+Cada card mostra:
+
+- número do pedido;
+- mesa ou balcão;
+- nome do cliente;
+- itens e quantidades;
+- total;
+- botão `Concluído`.
+
+Ao concluir, o pedido não é apagado imediatamente. Ele recebe `kitchenStatus: "done"` para que continue disponível ao caixa até o fechamento da comanda.
+
+## Painel do Caixa
+
+Rota:
+
+```text
+/#/caixa
+```
+
+O caixa deriva comandas a partir dos pedidos salvos em `selfix_orders`.
+
+Regras principais:
+
+- pedidos com mesa numerada são agrupados por mesa;
+- pedidos de `Balcão` viram comandas individuais;
+- itens iguais são consolidados por produto e preço;
+- a forma escolhida no quiosque aparece como referência;
+- o fechamento só é liberado quando todos os pedidos da comanda foram concluídos pela cozinha;
+- o caixa confirma a forma final entre Dinheiro, Débito, Crédito e PIX;
+- ao fechar, os pedidos da comanda são removidos de `selfix_orders`;
+- comandas encerradas ficam em histórico apenas em memória, até recarregar a página.
+
+## Persistência Local
+
+O app usa armazenamento do navegador:
+
+| Chave | Uso |
+|---|---|
+| `selfix_config` | nome, logo, cor, credenciais e campos legados de configuração |
+| `selfix_products` | produtos cadastrados no admin |
+| `selfix_orders` | pedidos abertos e status de cozinha |
+| `selfix_theme` | tema claro ou escuro |
+| `selfix_admin` | sessão do admin em `sessionStorage` |
+
+Como não há backend, os dados pertencem ao navegador/dispositivo onde o app está aberto. Para quiosque, cozinha e caixa compartilharem pedidos em tempo real, eles precisam usar o mesmo armazenamento local ou uma futura camada de servidor.
+
+## Estrutura do Projeto
+
+```text
+SELFIX/
+  public/
+    404.html
+  src/
+    components/
+      AdminProductForm.jsx
+      CartDrawer.jsx
+      CategoryBar.jsx
+      ProductCard.jsx
+      ThemeToggle.jsx
+    context/
+      CartContext.jsx
+      StoreContext.jsx
+    data/
+      seed.js
+    pages/
+      Admin.jsx
+      Cashier.jsx
+      Confirmation.jsx
+      Kitchen.jsx
+      Menu.jsx
+      Payment.jsx
+      Welcome.jsx
+    App.jsx
+    index.css
+    main.jsx
+    theme.js
+  index.html
+  package.json
+  vite.config.js
+  tailwind.config.js
+  postcss.config.js
+```
+
+Arquivos `PRD_*.md` e `SPEC_*.md` documentam decisões e critérios de aceite das melhorias de mesa por QR Code, pagamento simplificado, painel da cozinha e painel do caixa.
+
+## Build e Deploy
+
+Gerar build:
 
 ```bash
 npm run build
 ```
 
-Os arquivos ficam em `/dist`. Copie essa pasta para o tablet ou sirva-a com qualquer servidor HTTP estático (ex: `npx serve dist`).
+O resultado sai em `dist/`.
 
----
-
-## Modo Quiosque no Android
-
-### Opção A — Chrome Modo Quiosque (mais simples)
-
-1. Conecte o tablet ao computador via USB com depuração USB habilitada.
-2. Inicie o servidor na sua rede local:
-   ```bash
-   npm run dev -- --host
-   ```
-3. Abra o Chrome no tablet, vá até `http://SEU_IP:5173` e toque em **⋮ → Adicionar à tela inicial**.
-4. Use o **Fixar Tela** nativo do Android:
-   - Configurações → Segurança → Fixação de Tela (ou "App Pinning")
-   - Abra o app adicionado à tela inicial
-   - Pressione Recentes (botão quadrado) → ícone do pin no card do Chrome → **Fixar**
-   - O tablet fica preso no app; para sair, segure Voltar + Recentes ao mesmo tempo.
-
-### Opção B — Fully Kiosk Browser (recomendado para produção)
-
-1. Instale o **Fully Kiosk Browser** na Play Store (gratuito com funcionalidades básicas).
-2. Configure a URL de início: `http://localhost:5173` (ou o IP do servidor na rede).
-3. Em *Kiosk Mode*: ative **Kiosk Mode Lock Task** para impedir que o usuário saia.
-4. Ative **Keep Screen On** e **Start on Boot** para uso contínuo.
-
-### Opção C — ADB (linha de comando)
-
-Com o tablet conectado via USB:
+Publicar no GitHub Pages:
 
 ```bash
-# Abre Chrome em tela cheia no URL do quiosque
-adb shell am start -n com.android.chrome/com.google.android.apps.chrome.Main \
-  -a android.intent.action.VIEW \
-  -d "http://192.168.1.X:5173"
-
-# Oculta a barra de status
-adb shell settings put global policy_control immersive.full=*
+npm run deploy
 ```
 
----
+O `vite.config.js` usa:
 
-## Estrutura de Arquivos
-
-```
-/src
-  /pages
-    Welcome.jsx       ← Tela inicial com logo e botão "Toque para começar"
-    Menu.jsx          ← Cardápio com filtro por categoria e carrinho flutuante
-    Payment.jsx       ← Seleção de pagamento (PIX ou Cartão)
-    Confirmation.jsx  ← Número do pedido + countdown de 10s
-    Admin.jsx         ← Login + dashboard (configurações e cardápio)
-  /components
-    CategoryBar.jsx       ← Barra de categorias com scroll horizontal
-    ProductCard.jsx       ← Card de produto com botão "+"
-    CartDrawer.jsx        ← Gaveta deslizante do carrinho
-    AdminProductForm.jsx  ← Formulário de criação/edição de produto
-  /context
-    CartContext.jsx   ← Estado global do carrinho
-    StoreContext.jsx  ← Configurações e produtos (persiste em localStorage)
-  /data
-    seed.js           ← 10 produtos de hamburgeria para demo
+```js
+base: '/SELFIX/'
 ```
 
----
+Se o repositório ou caminho de publicação mudar, ajuste esse valor antes do build.
 
-## Dados de Exemplo (Demo)
+## Limitações Conhecidas
 
-O sistema vem pré-carregado com 10 produtos de hamburgeria:
+- Não há backend, banco de dados, autenticação real ou integração com gateway de pagamento.
+- O painel admin usa credenciais salvas no navegador, adequado apenas para demonstração ou dispositivo controlado.
+- Uploads de imagens viram base64 e podem estourar o limite do `localStorage`; prefira URLs para fotos grandes.
+- O histórico de comandas encerradas no caixa é apenas de sessão e desaparece ao recarregar.
+- Polling de cozinha e caixa acontece a cada 5 segundos.
+- Pedidos antigos ou dados corrompidos no `localStorage` são tratados com fallback simples, mas podem exigir limpeza manual do armazenamento.
 
-| Produto | Categoria | Preço |
-|---|---|---|
-| Classic Burger | Hambúrgueres | R$ 28,90 |
-| Smash Burger | Hambúrgueres | R$ 34,90 |
-| BBQ Bacon | Hambúrgueres | R$ 38,90 |
-| Veggie Burger | Hambúrgueres | R$ 32,90 |
-| Double Smash | Hambúrgueres | R$ 44,90 |
-| Batata Frita | Acompanhamentos | R$ 16,90 |
-| Onion Rings | Acompanhamentos | R$ 18,90 |
-| Milk Shake Chocolate | Bebidas | R$ 22,90 |
-| Refrigerante | Bebidas | R$ 8,90 |
-| Brownie com Sorvete | Sobremesas | R$ 19,90 |
+## Dados Demo
 
-Para restaurar o demo original: Admin → Cardápio → **Restaurar demo**.
+O cardápio inicial fica em `src/data/seed.js` e inclui produtos de hamburgeria nas categorias:
 
----
+- Hambúrgueres
+- Acompanhamentos
+- Bebidas
+- Sobremesas
 
-## Requisitos
-
-- Node.js 18+
-- npm 9+
-- Tablet Android 10" com Chrome 90+ (recomendado)
-- Conexão de rede local para servir o build
-
----
-
-## Notas Técnicas
-
-- **Sem banco de dados** — tudo no `localStorage` do navegador.
-- **Sem autenticação real** — as credenciais ficam no `localStorage`. Adequado para uso interno em tablet dedicado.
-- **QR Code PIX** — gerado automaticamente via `api.qrserver.com`. Para PIX com valor fixo/cobranças reais, use o QR gerado pelo seu banco.
-- **Fotos por upload** — convertidas para base64 e armazenadas no `localStorage`. Use fotos comprimidas (< 200 KB cada) para não ultrapassar o limite de 5 MB.
+No Admin, use `Restaurar demo` para substituir o cardápio atual pelos dados de exemplo.
