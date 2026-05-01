@@ -13,7 +13,7 @@ Adicionar ao painel `/admin` um menu lateral deslizante, aberto por um botão ha
 O menu deve servir como atalho administrativo para as principais áreas internas do sistema:
 
 - Configurações -> `/admin`
-- Cardápio -> `/menu`
+- Quiosque -> `/menu`
 - Painel da Cozinha -> `/cozinha`
 - Painel do Caixa -> `/caixa`
 - Sair -> tela de login do admin
@@ -131,7 +131,7 @@ A pesquisa de acessibilidade indica que um painel sobreposto deve deixar o fundo
 | Arquivo | Motivo |
 |---|---|
 | `src/App.jsx` | As rotas necessárias já existem. Não há necessidade de adicionar rota, provider ou layout global. |
-| `src/pages/Menu.jsx` | O drawer é exclusivo do `/admin`; o cardápio do cliente não deve receber menu administrativo. |
+| `src/pages/Menu.jsx` | O drawer é exclusivo do `/admin`; o quiosque não deve receber menu administrativo. |
 | `src/pages/Kitchen.jsx` | A cozinha já tem header próprio e não deve exibir o drawer. |
 | `src/pages/Cashier.jsx` | O caixa já tem header próprio e não deve exibir o drawer. |
 | `src/pages/Welcome.jsx` | Tela inicial do cliente fora do escopo. |
@@ -165,7 +165,7 @@ No `src/pages/Admin.jsx`:
 - backdrop escurecido cobrindo o restante da tela;
 - itens de navegação:
   - `⚙️ Configurações` para `/admin`;
-  - `🍔 Cardápio` para `/menu`;
+  - `🍔 Quiosque` para `/menu`;
   - `👨‍🍳 Painel da Cozinha` para `/cozinha`;
   - `💰 Painel do Caixa` para `/caixa`;
   - `🚪 Sair` para logout do admin;
@@ -183,9 +183,9 @@ Nenhum arquivo será removido.
 
 Não há necessidade de remover rotas.
 
-O botão atual "Sair" do header pode ser mantido ou substituído pelo item "Sair" no drawer, desde que o comportamento final continue claro e sem duplicidade confusa. A recomendação de menor interferência é manter o botão "Sair" existente e adicionar o item "Sair" no drawer com o mesmo comportamento.
+O botão atual "Sair" do header será removido. A única forma de fazer logout passa a ser pelo item `🚪 Sair` do drawer, usando o mesmo comportamento de logout já existente.
 
-O link atual "Ver quiosque" pode ser mantido para minimizar alterações visuais. O novo item "Cardápio" no drawer passa a oferecer uma navegação equivalente dentro do menu lateral.
+O link atual "Ver quiosque" do header também será removido. A navegação para o quiosque passa a ficar concentrada no item `🍔 Quiosque` do drawer, evitando redundância no header.
 
 ---
 
@@ -279,11 +279,11 @@ Cada critério descreve um cenário com entrada e resultado esperado.
 
 **Resultado esperado:** O app navega para `/admin`, o drawer fecha e o painel administrativo permanece disponível. Se o usuário já estava em `/admin`, não ocorre erro nem recarregamento desnecessário.
 
-### CA-06 - Cardápio navega para menu
+### CA-06 - Quiosque navega para menu
 
-**Entrada:** O drawer está aberto e o administrador clica em `🍔 Cardápio`.
+**Entrada:** O drawer está aberto e o administrador clica em `🍔 Quiosque`.
 
-**Resultado esperado:** O app navega para `/menu`, o drawer fecha e a tela de cardápio do cliente aparece. O drawer não aparece no cardápio.
+**Resultado esperado:** O app navega para `/menu`, o drawer fecha e a tela do quiosque aparece. O drawer não aparece no quiosque.
 
 ### CA-07 - Cozinha navega para painel da cozinha
 
@@ -303,11 +303,11 @@ Cada critério descreve um cenário com entrada e resultado esperado.
 
 **Resultado esperado:** A sessão do admin é removida, o drawer fecha e a tela exibida é o login administrativo do `/admin`, não a tela inicial do cliente.
 
-### CA-10 - Botão Sair existente continua funcionando
+### CA-10 - Botão Sair existente é removido
 
-**Entrada:** O administrador está logado e clica no botão "Sair" já existente no header, sem abrir o drawer.
+**Entrada:** O administrador acessa o painel `/admin` autenticado e observa o header.
 
-**Resultado esperado:** O comportamento continua igual ao atual: a sessão do admin é removida e a tela de login administrativo aparece.
+**Resultado esperado:** O botão "Sair" existente no header do admin é removido. A única forma de fazer logout passa a ser pelo item `🚪 Sair` do drawer.
 
 ### CA-11 - Menu não interfere nas abas internas do admin
 
@@ -355,7 +355,7 @@ Cada critério descreve um cenário com entrada e resultado esperado.
 
 **Entrada:** O administrador compara o `/admin` antes e depois da melhoria, com o drawer fechado.
 
-**Resultado esperado:** A única diferença visível obrigatória é o botão hamburguer no canto superior esquerdo. Fonte, paleta de cores, cards, abas, formulários e espaçamentos principais permanecem consistentes.
+**Resultado esperado:** As únicas diferenças visíveis obrigatórias são o botão hamburguer no canto superior esquerdo e a remoção dos itens "Ver quiosque" e "Sair" do header. Fonte, paleta de cores, cards, abas, formulários e espaçamentos principais permanecem consistentes.
 
 ---
 
@@ -367,7 +367,7 @@ Não faz parte desta entrega:
 - criar autenticação real;
 - proteger `/cozinha` ou `/caixa` por login;
 - criar layout compartilhado global;
-- adicionar menu lateral no cardápio, cozinha, caixa ou tela inicial;
+- adicionar menu lateral no quiosque, cozinha, caixa ou tela inicial;
 - refatorar rotas;
 - trocar `HashRouter`;
 - alterar tema global;
