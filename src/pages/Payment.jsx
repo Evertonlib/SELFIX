@@ -23,7 +23,7 @@ export default function Payment() {
         >
           ‹
         </button>
-        <h1 className="text-white text-2xl font-bold">Pagamento</h1>
+        <h1 className="text-white text-2xl font-bold font-display">Pagamento</h1>
       </header>
 
       <div className="flex-1 flex flex-col p-6 overflow-y-auto">

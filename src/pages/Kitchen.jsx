@@ -45,7 +45,7 @@ export default function Kitchen() {
   return (
     <div className="min-h-screen bg-gray-950">
       <header className="bg-gray-900 px-5 py-4 border-b border-gray-800">
-        <h1 className="text-white text-2xl font-bold">Painel da Cozinha</h1>
+        <h1 className="text-white text-2xl font-bold font-display">Painel da Cozinha</h1>
       </header>
 
       <div className="p-4 flex flex-col gap-4">
@@ -57,7 +57,7 @@ export default function Kitchen() {
           orders.map(order => (
             <div key={order.id} className="bg-gray-900 rounded-2xl p-5 flex flex-col gap-3">
               <div className="flex justify-between items-center">
-                <span className="text-white text-xl font-bold">Pedido #{order.id}</span>
+                <span className="text-white text-xl font-bold font-display">Pedido #{order.id}</span>
                 {order.tableNumber === 'Balcão'
                   ? <span className="text-gray-400 text-base">Balcão</span>
                   : <span className="text-gray-400 text-base">Mesa {order.tableNumber}</span>

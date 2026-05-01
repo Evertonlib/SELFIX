@@ -23,7 +23,7 @@ function LoginForm({ onLogin, config }) {
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="text-4xl mb-3">⚙️</div>
-          <h1 className="text-2xl font-bold text-gray-900">Painel SELFIX</h1>
+          <h1 className="text-2xl font-bold text-gray-900 font-display">Painel SELFIX</h1>
           <p className="text-gray-500 text-sm mt-1">Acesso exclusivo para o administrador</p>
         </div>
 
@@ -97,7 +97,7 @@ function SettingsTab() {
   return (
     <div className="space-y-6 pb-8">
       <section className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <h2 className="font-bold text-gray-900 text-lg mb-4">Identidade do Estabelecimento</h2>
+        <h2 className="font-bold text-gray-900 text-lg mb-4 font-display">Identidade do Estabelecimento</h2>
 
         <div className="space-y-4">
           <div>
@@ -167,7 +167,7 @@ function SettingsTab() {
       </section>
 
       <section className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <h2 className="font-bold text-gray-900 text-lg mb-4">Credenciais de Acesso</h2>
+        <h2 className="font-bold text-gray-900 text-lg mb-4 font-display">Credenciais de Acesso</h2>
 
         <div className="space-y-4">
           <div>
@@ -389,7 +389,7 @@ export default function Admin() {
       {isDrawerOpen && (
         <div className="fixed left-0 top-0 h-full w-72 max-w-[85vw] z-50 bg-white border-r border-gray-200 shadow-xl flex flex-col">
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
-            <span className="font-bold text-gray-900">Menu</span>
+            <span className="font-bold text-gray-900 font-display">Menu</span>
             <button
               type="button"
               onClick={() => setIsDrawerOpen(false)}
@@ -453,7 +453,7 @@ export default function Admin() {
             <span className="block h-0.5 bg-current rounded" />
           </div>
         </button>
-        <h1 className="text-xl font-bold text-gray-900">Painel SELFIX</h1>
+        <h1 className="text-xl font-bold text-gray-900 font-display">Painel SELFIX</h1>
       </header>
 
       <div className="bg-white border-b border-gray-200 px-6">

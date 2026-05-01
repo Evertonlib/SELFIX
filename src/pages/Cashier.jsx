@@ -158,7 +158,7 @@ export default function Cashier() {
   return (
     <div className="min-h-screen bg-gray-950">
       <header className="bg-gray-900 px-5 py-4 border-b border-gray-800 flex items-center justify-between">
-        <h1 className="text-white text-2xl font-bold">Painel do Caixa</h1>
+        <h1 className="text-white text-2xl font-bold font-display">Painel do Caixa</h1>
         <div className="flex gap-2">
           <button
             onClick={() => setView('active')}
@@ -198,7 +198,7 @@ export default function Cashier() {
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <span className="text-white text-xl font-bold">{label}</span>
+                      <span className="text-white text-xl font-bold font-display">{label}</span>
                       <p className="text-gray-400 text-base">{comanda.customerName}</p>
                     </div>
                     <div className="text-right">
@@ -292,7 +292,7 @@ export default function Cashier() {
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <span className="text-white text-xl font-bold">{label}</span>
+                      <span className="text-white text-xl font-bold font-display">{label}</span>
                       <p className="text-gray-400 text-base">{tab.customerName}</p>
                     </div>
                     <div className="text-right">

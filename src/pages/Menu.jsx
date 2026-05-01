@@ -51,7 +51,7 @@ export default function Menu() {
             {config.name.charAt(0)}
           </div>
         )}
-        <h1 className="text-white text-2xl font-bold flex-1">{config.name}</h1>
+        <h1 className="text-white text-2xl font-bold flex-1 font-display">{config.name}</h1>
         {tableNumber
           ? <span className="text-sm font-semibold text-gray-300 bg-gray-800 border border-gray-700 rounded-full px-3 py-1">Mesa {tableNumber}</span>
           : <span className="text-gray-500 text-sm">Cardápio</span>

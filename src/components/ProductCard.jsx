@@ -17,11 +17,11 @@ export default function ProductCard({ product, onAdd, primaryColor }) {
       )}
 
       <div className="p-4 flex flex-col gap-1 flex-1">
-        <h3 className="text-white text-lg font-bold leading-tight">{product.name}</h3>
+        <h3 className="text-white text-lg font-bold leading-tight font-display">{product.name}</h3>
         <p className="text-gray-400 text-sm leading-snug flex-1">{product.description}</p>
 
         <div className="flex items-center justify-between mt-3">
-          <span className="text-white text-xl font-bold">{fmt(product.price)}</span>
+          <span className="text-white text-xl font-bold font-display">{fmt(product.price)}</span>
           <button
             onClick={onAdd}
             aria-label={`Adicionar ${product.name}`}

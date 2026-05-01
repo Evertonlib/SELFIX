@@ -48,7 +48,7 @@ export default function AdminProductForm({ product, onSave, onCancel }) {
         >
           ← Voltar
         </button>
-        <h2 className="text-xl font-bold text-gray-900">
+        <h2 className="text-xl font-bold text-gray-900 font-display">
           {product ? 'Editar Produto' : 'Novo Produto'}
         </h2>
       </div>

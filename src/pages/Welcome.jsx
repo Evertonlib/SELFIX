@@ -42,7 +42,7 @@ export default function Welcome() {
         )}
 
         <div className="text-center">
-          <h1 className="text-white text-5xl font-black tracking-tight leading-tight">
+          <h1 className="text-white text-5xl font-black tracking-tight leading-tight font-display">
             {config.name}
           </h1>
           <p className="text-gray-400 text-xl mt-3">

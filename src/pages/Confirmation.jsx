@@ -44,7 +44,7 @@ export default function Confirmation() {
         ✓
       </div>
 
-      <h1 className="text-white text-4xl font-black mb-2">
+      <h1 className="text-white text-4xl font-black mb-2 font-display">
         Pedido Confirmado!
       </h1>
 
@@ -55,11 +55,11 @@ export default function Confirmation() {
       )}
 
       <div className="bg-gray-900 rounded-3xl p-8 mb-8 w-full max-w-xs border border-gray-800">
-        <p className="text-gray-500 text-base mb-2 uppercase tracking-widest text-sm font-medium">
+        <p className="text-gray-500 text-base mb-2 uppercase tracking-widest text-sm font-medium font-display">
           Número do Pedido
         </p>
         <p
-          className="text-8xl font-black tabular-nums"
+          className="text-6xl font-black tabular-nums font-display"
           style={{ color: config.primaryColor }}
         >
           #{orderNumber}

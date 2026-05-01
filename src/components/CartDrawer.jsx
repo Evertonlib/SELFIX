@@ -35,7 +35,7 @@ export default function CartDrawer({ isOpen, onClose, primaryColor }) {
         </div>
 
         <div className="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
-          <h2 className="text-white text-2xl font-bold">Seu Pedido</h2>
+          <h2 className="text-white text-2xl font-bold font-display">Seu Pedido</h2>
           <button
             onClick={onClose}
             className="text-gray-500 text-3xl leading-none w-10 h-10 flex items-center justify-center"
