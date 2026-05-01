@@ -206,7 +206,9 @@ Ao clicar em `Configurações`:
 
 - navegar para `/admin`;
 - fechar o drawer;
-- não é obrigatório forçar `activeTab = 'settings'`, porque o PRD define que `/admin` leva para a tela administrativa e que a aba atual é controlada por estado interno.
+- forçar `activeTab = 'settings'`.
+
+Observação: como `activeTab` é estado interno do componente `Admin`, navegar para `/admin` enquanto o usuário já está nessa rota não garante que o componente seja remontado nem que a aba volte para configurações. Portanto, o item `⚙️ Configurações` deve alterar explicitamente a aba ativa para `settings`.
 
 ---
 
@@ -235,7 +237,8 @@ Ao clicar em `Configurações`:
 5. Adicionar drawer/backdrop no JSX autenticado.
 6. Garantir que o login administrativo continue sem drawer.
 7. Verificar navegação para `/admin`, `/menu`, `/cozinha` e `/caixa`.
-8. Verificar logout voltando ao login do admin.
+8. Verificar que `⚙️ Configurações` volta para a aba de configurações mesmo quando acionado a partir da aba "Cardápio".
+9. Verificar logout voltando ao login do admin.
 
 ---
 
@@ -248,6 +251,7 @@ Ao clicar em `Configurações`:
 - O drawer fecha ao clicar no backdrop.
 - O drawer fecha ao clicar em qualquer item.
 - Os itens navegam usando React Router, sem `href="/SELFIX/#/..."`.
+- O item `⚙️ Configurações` força a aba interna `settings`, inclusive quando o usuário estava na aba "Cardápio".
 - O item "Sair" remove a sessão administrativa e renderiza o login do admin.
 - O header autenticado não exibe mais "Ver quiosque" nem "Sair".
 - `/menu`, `/cozinha` e `/caixa` não exibem drawer.

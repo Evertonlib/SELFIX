@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useStore } from '../context/StoreContext'
 import AdminProductForm from '../components/AdminProductForm'
 
@@ -341,10 +342,12 @@ function ProductsTab() {
 
 export default function Admin() {
   const { config } = useStore()
+  const navigate = useNavigate()
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return sessionStorage.getItem('selfix_admin') === '1'
   })
   const [activeTab, setActiveTab] = useState('settings')
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   const handleLogin = () => {
     sessionStorage.setItem('selfix_admin', '1')
@@ -352,8 +355,16 @@ export default function Admin() {
   }
 
   const handleLogout = () => {
-    sessionStorage.removeItem('selfix_admin')
+    setIsDrawerOpen(false)
+    try {
+      sessionStorage.removeItem('selfix_admin')
+    } catch (_) {}
     setIsLoggedIn(false)
+  }
+
+  const handleDrawerNavigate = (path) => {
+    setIsDrawerOpen(false)
+    navigate(path)
   }
 
   if (!isLoggedIn) {
@@ -367,22 +378,82 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
-        <h1 className="text-xl font-bold text-gray-900">Painel SELFIX</h1>
-        <div className="flex items-center gap-4">
-          <a
-            href="/SELFIX/#/menu"
-            className="text-blue-600 text-sm font-medium hover:underline"
-          >
-            Ver quiosque ↗
-          </a>
-          <button
-            onClick={handleLogout}
-            className="text-gray-500 text-sm hover:text-gray-800 transition-colors"
-          >
-            Sair
-          </button>
+      {isDrawerOpen && (
+        <div
+          className="fixed inset-0 bg-black/70 z-40"
+          onClick={() => setIsDrawerOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {isDrawerOpen && (
+        <div className="fixed left-0 top-0 h-full w-72 max-w-[85vw] z-50 bg-white border-r border-gray-200 shadow-xl flex flex-col">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
+            <span className="font-bold text-gray-900">Menu</span>
+            <button
+              type="button"
+              onClick={() => setIsDrawerOpen(false)}
+              aria-label="Fechar menu administrativo"
+              className="text-gray-500 hover:text-gray-800 text-2xl leading-none"
+            >
+              ×
+            </button>
+          </div>
+          <nav className="flex flex-col py-2">
+            <button
+              type="button"
+              onClick={() => { setIsDrawerOpen(false); setActiveTab('settings'); navigate('/admin') }}
+              className="flex items-center gap-3 px-5 py-3 text-left text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium"
+            >
+              ⚙️ Configurações
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDrawerNavigate('/menu')}
+              className="flex items-center gap-3 px-5 py-3 text-left text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium"
+            >
+              🍔 Quiosque
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDrawerNavigate('/cozinha')}
+              className="flex items-center gap-3 px-5 py-3 text-left text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium"
+            >
+              👨‍🍳 Painel da Cozinha
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDrawerNavigate('/caixa')}
+              className="flex items-center gap-3 px-5 py-3 text-left text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium"
+            >
+              💰 Painel do Caixa
+            </button>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="flex items-center gap-3 px-5 py-3 text-left text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium mt-2 border-t border-gray-200"
+            >
+              🚪 Sair
+            </button>
+          </nav>
         </div>
+      )}
+
+      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-4 sticky top-0 z-10">
+        <button
+          type="button"
+          aria-label="Abrir menu administrativo"
+          aria-expanded={isDrawerOpen}
+          onClick={() => setIsDrawerOpen(o => !o)}
+          className="p-2 -ml-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 flex-shrink-0"
+        >
+          <div className="flex flex-col gap-1.5 w-5">
+            <span className="block h-0.5 bg-current rounded" />
+            <span className="block h-0.5 bg-current rounded" />
+            <span className="block h-0.5 bg-current rounded" />
+          </div>
+        </button>
+        <h1 className="text-xl font-bold text-gray-900">Painel SELFIX</h1>
       </header>
 
       <div className="bg-white border-b border-gray-200 px-6">
